@@ -27,7 +27,6 @@ public class SecondActivity extends AppCompatActivity {
         });
     };
 
-    private int i =0;
     @Override
     protected void onResume() {
         super.onResume();
@@ -35,12 +34,7 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void receive(Object data) {
                 if (data instanceof String) {
-                    i++;
-                    String str = tv.getText().toString();
-                    Log.w("TAG", (String) data+i+"==================================="+str);
-                    tv.append( ""+data);
-                    String str2 = tv.getText().toString();
-                    String a = str2+"";
+                    tv.setText( ""+data);
 
                 }
             }
