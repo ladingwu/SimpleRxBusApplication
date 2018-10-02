@@ -1,0 +1,2 @@
+# SimpleRxBusApplication
+an easy bus
