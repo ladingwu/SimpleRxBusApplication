@@ -25,7 +25,7 @@
     - 接收粘性事件(自动取消订阅)
     ```
     // in Fragment or FragmentActivity
-    RxBusUtils.receive(this,"filter_message", new RxBusReceiver<Object>() {
+    RxBusUtils.receiveSticky(this,"filter_message", new RxBusReceiver<Object>() {
                 @Override
                 public void receive(Object message) {
                         // handle this
