@@ -40,8 +40,6 @@ public abstract class RxBusReceiver<T> extends RxResourceObserver<T> {
 
     public abstract void receive(T data);
     private void clearIfNeed(){
-        Log.w("rxbus","clearIfNeed ======");
-
         if (filter != null) {
             RxSimpleBus.getBus().clearCurMessage(filter);
         }

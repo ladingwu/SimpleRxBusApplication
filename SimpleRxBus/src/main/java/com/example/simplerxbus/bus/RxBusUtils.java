@@ -9,12 +9,20 @@ import io.reactivex.disposables.Disposable;
 
 public class RxBusUtils {
     /**
+     * @param tag
+     * @param event
      * 发送普通事件
      */
     public static void post(String tag, Object event) {
         RxSimpleBus.getBus().sendMessage(new RxBusMessage(tag, event));
     }
 
+    /**
+     *
+     * @param filter
+     * @param receiver
+     * @return
+     */
     public static Disposable receive(String filter, RxBusReceiver<Object> receiver) {
         return RxSimpleBus.getBus().receiveMessageFrom(filter, receiver);
     }
@@ -28,6 +36,12 @@ public class RxBusUtils {
         RxSimpleBus.getBus().sendStickyMessage(new RxBusMessage(tag, event));
     }
 
+    /**
+     *
+     * @param filter
+     * @param receiver
+     * @return
+     */
     public static Disposable receiveSticky(String filter, RxBusReceiver<Object> receiver) {
         receiver.setCurFilter(filter);
         return RxSimpleBus.getBus().receiveStickyMessage(filter, receiver);
@@ -36,22 +50,34 @@ public class RxBusUtils {
     /**
      * 接受普通事件
      * 自动取消注册
+     * @param fragment
+     * @param filter
+     * @param receiver
      */
     public static void receive(Fragment fragment, String filter, RxBusReceiver<Object> receiver) {
         Disposable disposable = receive(filter, receiver);
         HolderLifeFragment fragment1 = HolderLifeFragment.holderFragmentFor(fragment);
         setDispose(fragment1, disposable);
     }
-
-    public static void receive(FragmentActivity fragment, String filter, RxBusReceiver<Object> receiver) {
+    /**
+     * 接受普通事件
+     * 自动取消注册
+     * @param activity
+     * @param filter
+     * @param receiver
+     */
+    public static void receive(FragmentActivity activity, String filter, RxBusReceiver<Object> receiver) {
         Disposable disposable = receive(filter, receiver);
-        HolderLifeFragment fragment1 = HolderLifeFragment.holderFragmentFor(fragment);
+        HolderLifeFragment fragment1 = HolderLifeFragment.holderFragmentFor(activity);
         setDispose(fragment1, disposable);
     }
 
     /**
      * 接受粘性事件
      * 自动取消注册
+     * @param fragment
+     * @param filter
+     * @param receiver
      */
     public static void receiveSticky(Fragment fragment, String filter, RxBusReceiver<Object> receiver) {
         Disposable disposable = receiveSticky(filter, receiver);
@@ -59,9 +85,15 @@ public class RxBusUtils {
         setDispose(fragment1, disposable);
     }
 
-    public static void receiveSticky(FragmentActivity fragment, String filter, RxBusReceiver<Object> receiver) {
+    /**
+     *
+     * @param activity
+     * @param filter
+     * @param receiver
+     */
+    public static void receiveSticky(FragmentActivity activity, String filter, RxBusReceiver<Object> receiver) {
         Disposable disposable = receiveSticky(filter, receiver);
-        HolderLifeFragment fragment1 = HolderLifeFragment.holderFragmentFor(fragment);
+        HolderLifeFragment fragment1 = HolderLifeFragment.holderFragmentFor(activity);
         setDispose(fragment1, disposable);
     }
 

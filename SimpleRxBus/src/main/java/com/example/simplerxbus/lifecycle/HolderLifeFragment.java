@@ -23,9 +23,7 @@ public class HolderLifeFragment extends Fragment {
     private CompositeDisposable compositeDisposable =
             new CompositeDisposable();
 
-    /**
-     * @hide
-     */
+
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public static final String HOLDER_TAG =
             "qsbk.app.utils.otto.HolderLifeFragment.tag";
