@@ -1,4 +1,4 @@
-# SimpleRxBusApplication
+# SimpleRxBus
 > **一个更加简单易用的RxBus**
 
 - 使用简介
