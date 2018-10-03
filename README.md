@@ -2,6 +2,12 @@
 > **一个更加简单易用的RxBus**
 
 - 使用简介
+    - 集成
+    ```
+    implementation 'com.ladingwu.library:SimpleRxBus:0.1'
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'  // 需要v7的support包
+    ```
     - 发送普通事件
     ```
     RxBusUtils.post("filter_message",mesage);
