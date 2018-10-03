@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.laddingwu.rxbusapplication.model.ActivityToFragmentsBean;
 import com.example.simplerxbus.bus.RxBusReceiver;
 import com.example.simplerxbus.bus.RxBusUtils;
 
@@ -23,7 +24,10 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RxBusUtils.postSticky(Tag.BUS_CLICK_FRIST,editText.getText().toString());
+                ActivityToFragmentsBean bean = new ActivityToFragmentsBean();
+                bean.data1 = "data1 from MainActivity";
+                bean.data2 = "data2 also from MainActivity";
+                RxBusUtils.postSticky(Tag.BUS_CLICK_FRIST, bean);
                 startActivity(new Intent(MainActivity.this,SecondActivity.class));
             }
         });
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void receive(Object data) {
                 if (data instanceof String) {
-                    textView.setText("result: "+(String) data);
+                    textView.setText((String) data);
 
                 }
             }
