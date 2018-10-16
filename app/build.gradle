@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.laddingwu.rxbusapplication"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -31,8 +31,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-//    compile project(':SimpleRxBus')
+    implementation project(':SimpleRxBus')
     implementation "io.reactivex.rxjava2:rxjava:2.1.8"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-    implementation 'com.ladingwu.library:SimpleRxBus:0.1'
+//    implementation 'com.ladingwu.library:SimpleRxBus:0.1'
 }
