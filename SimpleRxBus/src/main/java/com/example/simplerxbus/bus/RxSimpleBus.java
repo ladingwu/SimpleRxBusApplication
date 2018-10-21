@@ -17,13 +17,13 @@ import io.reactivex.subjects.Subject;
 class RxSimpleBus {
 
     private final Subject<Object> normalBus;
-    private final Subject<Object> intentBus;
+    private final Subject<Object> stickyBus;
     private final static RxSimpleBus INSTANCE = new RxSimpleBus();
     private ConcurrentMap<String ,Object> cache = new ConcurrentHashMap<>();
 
     private RxSimpleBus() {
         normalBus = PublishSubject.create().toSerialized();
-        intentBus = PublishSubject.create().toSerialized();
+        stickyBus = PublishSubject.create().toSerialized();
     }
 
     public static RxSimpleBus getBus() {
@@ -67,10 +67,10 @@ class RxSimpleBus {
     }
 
     public Disposable receiveStickyMessage(final String filter, RxBusReceiver<Object> receiver) {
-        Disposable disposable = getBus().toObserverable(intentBus, filter).subscribeWith(receiver);
+        Disposable disposable = getBus().toObserverable(stickyBus, filter).subscribeWith(receiver);
         Object value  = cache.get(filter);
         if (value != null) {
-            intentBus.onNext(value);
+            stickyBus.onNext(value);
         }
         return disposable;
     }
