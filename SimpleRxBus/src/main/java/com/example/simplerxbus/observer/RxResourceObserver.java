@@ -1,16 +1,17 @@
 package com.example.simplerxbus.observer;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.disposables.DisposableHelper;
 import io.reactivex.internal.disposables.ListCompositeDisposable;
 import io.reactivex.internal.functions.ObjectHelper;
-import io.reactivex.internal.util.EndConsumerHelper;
+import io.reactivex.plugins.RxJavaPlugins;
+
 
 public abstract class RxResourceObserver<T> implements Observer<T>, Disposable {
     /** The active subscription. */
@@ -33,11 +34,31 @@ public abstract class RxResourceObserver<T> implements Observer<T>, Disposable {
 
     @Override
     public final void onSubscribe(Disposable s) {
-        if (EndConsumerHelper.setOnce(this.s, s, getClass())) {
+        if (setOnce(this.s, s, getClass())) {
             onStart();
         }
     }
 
+    private boolean setOnce(AtomicReference<Disposable> upstream, Disposable next, Class<?> observer) {
+        ObjectHelper.requireNonNull(next, "next is null");
+        if (!upstream.compareAndSet(null, next)) {
+            next.dispose();
+            if (upstream.get() != DisposableHelper.DISPOSED) {
+                reportDoubleSubscription(observer);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void reportDoubleSubscription(Class<?> consumer) {
+        RxJavaPlugins.onError(new IllegalStateException(composeMessage(consumer.getName())));
+    }
+
+    public String composeMessage(String consumer) {
+        return "It is not allowed to subscribe with a(n) " + consumer + " multiple times. "
+                + "Please create a fresh instance of " + consumer + " and subscribe that to the target source instead.";
+    }
     /**
      * Called once the upstream sets a Subscription on this ResourceObserver.
      *
